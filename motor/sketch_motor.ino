@@ -43,6 +43,7 @@ void loop()
               //monServo.writeMicroseconds(1400);
 	      }
      }
+     delay(10);
      client.stop();
     }
 void repondre(EthernetClient client) {
@@ -64,6 +65,7 @@ void repondre(EthernetClient client) {
 	client.println("<TABLE BORDER=0 WIDTH=80%>");
 	client.println("<TR>");
 	// IP 1
+	//  <TD ALIGN="center"><a href="http://192.168.0.101"><input type="button" value="Caméra 1"></a></TD>
 	client.print("<TD ALIGN="),client.print(byte(34));
 	client.print("center"),client.print(byte(34));
 	client.print("><a href="),client.print(byte(34));
@@ -74,6 +76,7 @@ void repondre(EthernetClient client) {
 	client.print("Caméra 1"),client.print(byte(34));
 	client.print("></a></TD>");
 	// IP 2
+	//  <TD ALIGN="center"><a href="http://192.168.0.102"><input type="button" value="Caméra 2"></a></TD>
 	client.print("<TD ALIGN="),client.print(byte(34));
 	client.print("center"),client.print(byte(34));
 	client.print("><a href="),client.print(byte(34));
@@ -84,6 +87,7 @@ void repondre(EthernetClient client) {
 	client.print("Caméra 2"),client.print(byte(34));
 	client.print("></a></TD>");
 	// IP 3
+	//  <TD ALIGN="center"><a href="http://192.168.0.103"><input type="button" value="Caméra 3"></a></TD>
 	client.print("<TD ALIGN="),client.print(byte(34));
 	client.print("center"),client.print(byte(34));
 	client.print("><a href="),client.print(byte(34));
@@ -94,6 +98,7 @@ void repondre(EthernetClient client) {
 	client.print("Caméra 3"),client.print(byte(34));
 	client.print("></a></TD>");
 	// IP 4
+	//  <TD ALIGN="center"><a href="http://192.168.0.104"><input type="button" value="Caméra 4"></a></TD>
 	client.print("<TD ALIGN="),client.print(byte(34));
 	client.print("center"),client.print(byte(34));
 	client.print("><a href="),client.print(byte(34));
