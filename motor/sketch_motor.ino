@@ -32,7 +32,7 @@ void loop()
   if (client) {
     // Gestion de la fin de la requete WEB qui est indiquee par l'envoi d'une ligne blanche
     //boolean currentLineIsBlank = true;
- 
+	// Code modifié pour exemple Nono !
     while (client.connected()) {
       if (client.available()) {
               //Envoi du header standard HTTP au browser
