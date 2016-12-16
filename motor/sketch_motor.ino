@@ -50,7 +50,7 @@ void loop()
 void repondre(EthernetClient client) {
 	//Envoi du header standard HTTP au browser
 	client.println("HTTP/1.1 200 OK");
-	client.println("Content-Type: text/html");
+	client.println("Content-Type: text/html; charset=utf-8");
 	client.println();
 	client.println("<HTML>");
 	client.println("<HEAD>");
