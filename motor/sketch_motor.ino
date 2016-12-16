@@ -68,13 +68,13 @@ void repondre(EthernetClient client) {
 	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
 	// IP 2
 	//  <TD ALIGN="center"><a href="http://192.168.0.102"><input type="button" value="Caméra 2"></a></TD>
-	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.102'><input type='button' value='Caméra 2'></a></TD>");
 	// IP 3
 	//  <TD ALIGN="center"><a href="http://192.168.0.103"><input type="button" value="Caméra 3"></a></TD>
-	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.103'><input type='button' value='Caméra 3'></a></TD>");
 	// IP 4
 	//  <TD ALIGN="center"><a href="http://192.168.0.104"><input type="button" value="Caméra 4"></a></TD>
-	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.104'><input type='button' value='Caméra 4'></a></TD>");
 	client.println("</TR>");
 	// Fin tableau caméras
 	client.println("</TABLE>");
@@ -84,25 +84,9 @@ void repondre(EthernetClient client) {
 	client.println("<TABLE BORDER=0 WIDTH=50%>");
 	client.println("<tr>");	
 	// Vitesse lente
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><INPUT TYPE="),client.print(byte(34));
-	client.print("radio"),client.print(byte(34));
-	client.print("NAME="),client.print(byte(34));
-	client.print("vitesse"),client.print(byte(34));
-	client.print("VALUE="),client.print(byte(34));
-	client.print("1"),client.print(byte(34));
-	client.print("CHECKED>Vitesse Lente</td>");
+	client.println("<td ALIGN='center'><INPUT TYPE='radio' NAME='vitesse' VALUE='1' CHECKED>Vitesse Lente</td>");
 	// Vitesse rapide
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><INPUT TYPE="),client.print(byte(34));
-	client.print("radio"),client.print(byte(34));
-	client.print("NAME="),client.print(byte(34));
-	client.print("vitesse"),client.print(byte(34));
-	client.print("VALUE="),client.print(byte(34));
-	client.print("2"),client.print(byte(34));
-	client.print("CHECKED>Vitesse Rapide</td>");	
+	client.println("<td ALIGN='center'><INPUT TYPE='radio' NAME='vitesse' VALUE='2' CHECKED>Vitesse Rapide</td>");
 	client.println("</tr>");
 	// Fin tableau Vitesse
 	client.println("</TABLE>");
@@ -110,49 +94,19 @@ void repondre(EthernetClient client) {
 	// Debut Tableau FDC + Boutons
 	client.println("<TABLE BORDER=0 WIDTH=30%>");
 	// Debut ligne FDC
-	client.print("<tr height="),client.print(byte(34));
-	client.print("50"),client.print(byte(34));
-	client.print(">");
+	client.println("<tr height='50'>");
 	// FDC 1
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><INPUT TYPE="),client.print(byte(34));
-	client.print("radio"),client.print(byte(34));
-	client.print("NAME="),client.print(byte(34));
-	client.print("Fin de course"),client.print(byte(34));
-	client.print("VALUE="),client.print(byte(34));
-	client.print("FDC1"),client.print(byte(34));
-	client.print("disabled >Max Zoom&nbsp;&nbsp;</td>");
+	client.println("<td ALIGN='center'><INPUT TYPE='radio' NAME='Fin de course' VALUE='FDC1' disabled >Max Zoom&nbsp;&nbsp;</td>");
 	// FDC 2 
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><INPUT TYPE="),client.print(byte(34));
-	client.print("radio"),client.print(byte(34));
-	client.print("NAME="),client.print(byte(34));
-	client.print("Fin de course"),client.print(byte(34));
-	client.print("VALUE="),client.print(byte(34));
-	client.print("FDC2"),client.print(byte(34));
-	client.print("disabled >Min Zoom&nbsp;&nbsp;</td>");
+	client.println("<td ALIGN='center'><INPUT TYPE='radio' NAME='Fin de course' VALUE='FDC2' disabled >Min Zoom&nbsp;&nbsp;</td>");
 	// Fin ligne FDC
 	client.println("</tr>");
 	// Debut ligne boutons
 	client.println("<tr>");
 	// Bouton +
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("  value="),client.print(byte(34));
-	client.print("        +        "),client.print(byte(34));
-	client.print("></td>");
+	client.println("<td ALIGN='center'><input type='button'  value='        +        '></td>");
 	// Bouton -
-	client.print("<td ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("  value="),client.print(byte(34));
-	client.print("        -        "),client.print(byte(34));
-	client.print("></td>");
+	client.println("<td ALIGN='center'><input type='button'  value='        -        '></td>");
 	// Fin ligne boutons
 	client.println("</tr>");
 	// Fin Tableau FDC + Boutons
