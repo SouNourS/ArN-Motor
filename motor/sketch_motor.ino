@@ -46,6 +46,7 @@ void loop()
      delay(10);
      client.stop();
     }
+}
 void repondre(EthernetClient client) {
 	//Envoi du header standard HTTP au browser
 	client.println("HTTP/1.1 200 OK");
@@ -55,9 +56,7 @@ void repondre(EthernetClient client) {
 	client.println("<HEAD>");
 	client.println("<TITLE>Contrôle Caméra 1</TITLE>");
 	client.println("</HEAD>");
-	client.print("<body BGCOLOR="),client.print(byte(34)); // <body BGCOLOR="
-	client.print("#E0E0F8"); // #E0E0F8
-	client.print(byte(34)),client.print(">"); // " >
+	client.println("<body BGCOLOR='#E0E0F8'>");
 	client.println("<center>");
 	client.println("<H1>Contrôle Caméra 1</H1>");
 	client.println("<br><br>");
@@ -66,48 +65,16 @@ void repondre(EthernetClient client) {
 	client.println("<TR>");
 	// IP 1
 	//  <TD ALIGN="center"><a href="http://192.168.0.101"><input type="button" value="Caméra 1"></a></TD>
-	client.print("<TD ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><a href="),client.print(byte(34));
-	client.print("http://192.168.0.101"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("value="),client.print(byte(34));
-	client.print("Caméra 1"),client.print(byte(34));
-	client.print("></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
 	// IP 2
 	//  <TD ALIGN="center"><a href="http://192.168.0.102"><input type="button" value="Caméra 2"></a></TD>
-	client.print("<TD ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><a href="),client.print(byte(34));
-	client.print("http://192.168.0.102"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("value="),client.print(byte(34));
-	client.print("Caméra 2"),client.print(byte(34));
-	client.print("></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
 	// IP 3
 	//  <TD ALIGN="center"><a href="http://192.168.0.103"><input type="button" value="Caméra 3"></a></TD>
-	client.print("<TD ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><a href="),client.print(byte(34));
-	client.print("http://192.168.0.103"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("value="),client.print(byte(34));
-	client.print("Caméra 3"),client.print(byte(34));
-	client.print("></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
 	// IP 4
 	//  <TD ALIGN="center"><a href="http://192.168.0.104"><input type="button" value="Caméra 4"></a></TD>
-	client.print("<TD ALIGN="),client.print(byte(34));
-	client.print("center"),client.print(byte(34));
-	client.print("><a href="),client.print(byte(34));
-	client.print("http://192.168.0.104"),client.print(byte(34));
-	client.print("><input type="),client.print(byte(34));
-	client.print("button"),client.print(byte(34));
-	client.print("value="),client.print(byte(34));
-	client.print("Caméra 4"),client.print(byte(34));
-	client.print("></a></TD>");
+	client.println("<TD ALIGN='center'><a href='http://192.168.0.101'><input type='button' value='Caméra 1'></a></TD>");
 	client.println("</TR>");
 	// Fin tableau caméras
 	client.println("</TABLE>");
@@ -199,4 +166,3 @@ void repondre(EthernetClient client) {
   //if (!client) {
 	//exemple
     //}
-}
