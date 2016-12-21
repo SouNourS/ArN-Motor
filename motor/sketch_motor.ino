@@ -16,9 +16,11 @@ int index = 0;
 bool bSensCam = 0;
 int iSensCam = 0;
 bool bVitesseCam = 0;
-int iVitesseCam = 0;
+float fVitesseCam = 0.;
 int CamArret = 1500;
 int CamMouv = 1500;
+int iTempsTourne = 0;
+unsigned long temps;
 
 void setup()
 {
@@ -172,12 +174,17 @@ void repondre(EthernetClient client) {
     iSensCam = 1;
   }
   if(bVitesseCam == 0){
-    iVitesseCam = 1;
+    fVitesseCam = 0.1;
+    iTempsTourne = 500;
   } else {
-    iVitesseCam = 6;
+    fVitesseCam = 4;
+    iTempsTourne = 1000;
   }
-  CamMouv = (iSensCam * iVitesseCam * 100) + CamArret ;
+  CamMouv = (iSensCam * fVitesseCam * 100) + CamArret ;
   monServo.writeMicroseconds(CamMouv);
-  delay(1000);
+  temps = millis();
+  while(millis()-temps <= iTempsTourne){
+    int toto = 1;
+  }
   monServo.writeMicroseconds(CamArret);
  }
