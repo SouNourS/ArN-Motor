@@ -2,75 +2,66 @@
 #include <Ethernet2.h>
 #include <Servo.h>
 
-// L'adresse MAC du shield
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x10, 0xDE, 0xE7 };
-// L'adresse IP que prendra le shield
-byte ip[] = { 192, 168, 1, 101 };
-// Port d'écoute
-EthernetServer serveur(80);
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x10, 0xDE, 0xE7 }; // L'adresse MAC du shield
+byte ip[] = { 192, 168, 1, 101 }; // L'adresse IP que prendra le shield
 
-Servo monServo;
+EthernetServer serveur(80); // Port d'écoute
 
-char *url = (char *)malloc(20);
-int index = 0;
-bool bSensCam = 0;
-int iSensCam = 0;
-bool bVitesseCam = 0;
-float fVitesseCam = 0.;
-int CamArret = 1500;
-int CamMouv = 1500;
-int iTempsTourne = 0;
-unsigned long temps;
+Servo monServo; // Init moteur
 
-void setup()
-{
-  // On démarre la voie serie pour deboguer
-  Serial.begin(9600);
-  // On crée la partie Eth
-  Ethernet.begin(mac, ip);
-  // Petite pause pour être sur que le shield Eth est démarré
-  delay(1000);
-  // Démarrage du serveur 
-  serveur.begin();
-  // Moteur sur le pin 5
-  monServo.attach(5);
-  // Moteur arreté !
-  monServo.writeMicroseconds(CamArret);
+char *url = (char *)malloc(20);	//init url
+int index = 0;					//init index (url)
+bool bSensCam = 0;				//init sens de rotation du moteur 0,1 (-,+)
+int iSensCam = 0;				//init sens de rotation du moteur -1,1 (-,+)
+bool bVitesseCam = 0;			//init vitesse de rotation du moteur 0,1 (lent, rapide)
+float fVitesseCam = 0.;			//init sens de rotation du moteur 0.1,6 (lent, rapide)
+int CamArret = 1500;			//init valeur d'arret du moteur
+int CamMouv = 1500;				//init du mouvement du moteur
+int iTempsTourne = 0;			//init du temps de rotation en ms
+unsigned long temps;			//init pour calcul du temps
+
+void setup(){
+	Serial.begin(9600); // On démarre la voie serie pour deboguer
+	Ethernet.begin(mac, ip); // On crée la partie Eth
+	delay(1000); // Petite pause pour être sur que le shield Eth est démarré
+	serveur.begin(); // Démarrage du serveur
+	monServo.attach(5); // Moteur sur le pin 5
+	monServo.writeMicroseconds(CamArret); // Moteur arreté !
 }
 
-void loop()
-{
-  // Regarde si un client est connecte et attend une reponse
-  EthernetClient client = serveur.available();
-  if (client) {
-    url == "";
-    index = 0;
-    // Gestion de la fin de la requete WEB qui est indiquee par l'envoi d'une ligne blanche
-    //boolean currentLineIsBlank = true;
-    while (client.connected()) {
-      if (client.available()) {
-        char carlu = client.read();
-        if(carlu != '\n'){
-          url[index] = carlu;
-          index++;
-        } else {
-          url[index] == ' ';
-          boolean ok = interpreteur();
-          if(ok){
-            action();
-          }
-        // et dans tout les cas on répond au client
-        repondre(client);
-        // on quitte le while
-        break;
-          }
-        //}
+void loop(){
+	// Regarde si un client est connecte et attend une reponse
+	EthernetClient client = serveur.available();
+	if (client) {
+		url == "";
+		index = 0;
+		// Gestion de la fin de la requete WEB qui est indiquee par l'envoi d'une ligne blanche
+		//boolean currentLineIsBlank = true;
+		while (client.connected()) {
+			if (client.available()) {
+				char carlu = client.read();
+				if(carlu != '\n'){
+					url[index] = carlu;
+					index++;
+				} else {
+					url[index] == ' ';
+					// On analyse le GET pour savoir comment le moteur doit tourner.
+					boolean ok = interpreteur();
+					if(ok){
+						// On fait tourner le moteur.
+						action();
+					}
+					// et dans tout les cas on répond au client
+					repondre(client);
+					// on quitte le while
+					break;
+				}
+			}
+	    }
+	}
+    delay(10);
+    client.stop();
 }
-	      }
-     }
-     delay(10);
-     client.stop();
-    }
 void repondre(EthernetClient client) {
 	//Envoi du header standard HTTP au browser
 	client.println(F("HTTP/1.1 200 OK"));
@@ -112,17 +103,17 @@ void repondre(EthernetClient client) {
 	client.println(F("<td ALIGN='center'><INPUT TYPE='radio' NAME='Fin de course' VALUE='FDC2' disabled >Min Zoom&nbsp;&nbsp;</td>"));
 	// Fin ligne FDC
 	client.println(F("</tr>"));
-  // Debut ligne boutons 2
-  client.println(F("<tr height='50'>"));
-  // Bouton +
-  client.println(F("<td ALIGN='center'><a href='http://192.168.1.101/s=1&v=1'><input type='button'value='     Rapide     +'></a></td>"));
-  // Bouton -
-  client.println(F("<td ALIGN='center'><a href='http://192.168.1.101/s=0&v=1'><input type='button'value='     Rapide     -'></a></td>"));
-  client.println(F("<br>"));
+	// Debut ligne boutons 2
+	client.println(F("<tr height='50'>"));
+	// Bouton +
+	client.println(F("<td ALIGN='center'><a href='http://192.168.1.101/s=1&v=1'><input type='button'value='     Rapide     +'></a></td>"));
+	// Bouton -
+	client.println(F("<td ALIGN='center'><a href='http://192.168.1.101/s=0&v=1'><input type='button'value='     Rapide     -'></a></td>"));
+	client.println(F("<br>"));
 	client.println(F("</tr>"));
-  // Debut ligne boutons
-  client.println(F("<tr height='50'>"));
-  client.println(F("<br>"));
+	// Debut ligne boutons
+	client.println(F("<tr height='50'>"));
+	client.println(F("<br>"));
 	// Bouton +
 	client.println(F("<td ALIGN='center'><a href='http://192.168.1.101/s=1&v=0'><input type='button'value='      Lent      +'></a></td>"));
 	// Bouton -
@@ -135,56 +126,56 @@ void repondre(EthernetClient client) {
 	client.println(F("</center>"));
 	client.println(F("</body>"));
 	client.println(F("</HTML>"));
-	  }
+}
 
- boolean interpreteur(){
-  index = 0;
-  while(url[index-1] != 's' && url[index] != '='){
-    index++;
-    if(index == 20){
-      return false;
-      }
-  }
-  while(url[index] != '&'){
-    if(url[index] >= '0' && url[index] <= '1'){
-      char sens = url[index]-'0';
-      bSensCam = sens;
-    }
-    index++;
-    if(index == 20) {
-      return false;
-    }
-  }
-  while(url[index-2] != 'v' && url[index-1] != '='){
-    if(url[index+1] >= '0' && url[index+1] <= '1'){
-      char vit = url[index+1]-'0';
-      bVitesseCam = vit;
-    }
-  index++;
-  if(index == 20){
-    return false;
-  }
-  }
-  return true;
- }
- void action(){
-  if(bSensCam == 0){
-    iSensCam = -1;
-  } else {
-    iSensCam = 1;
-  }
-  if(bVitesseCam == 0){
-    fVitesseCam = 0.1;
-    iTempsTourne = 500;
-  } else {
-    fVitesseCam = 4;
-    iTempsTourne = 1000;
-  }
-  CamMouv = (iSensCam * fVitesseCam * 100) + CamArret ;
-  monServo.writeMicroseconds(CamMouv);
-  temps = millis();
-  while(millis()-temps <= iTempsTourne){
-    int toto = 1;
-  }
-  monServo.writeMicroseconds(CamArret);
- }
+boolean interpreteur(){
+	index = 0;
+	while(url[index-1] != 's' && url[index] != '='){
+		index++;
+		if(index == 20){
+			return false;
+		}
+	}
+	while(url[index] != '&'){
+		if(url[index] >= '0' && url[index] <= '1'){
+			char sens = url[index]-'0';
+			bSensCam = sens; // lecture du sens de rotation via s=
+		}
+		index++;
+		if(index == 20) {
+			return false;
+		}
+	}
+	while(url[index-2] != 'v' && url[index-1] != '='){
+		if(url[index+1] >= '0' && url[index+1] <= '1'){
+			char vit = url[index+1]-'0';
+			bVitesseCam = vit; // lecture de la vitesse de rotation via v=
+		}
+		index++;
+		if(index == 20){
+			return false;
+		}
+	}
+	return true;
+}
+void action(){
+	if(bSensCam == 0){ 	// sens -
+		iSensCam = -1;
+	} else {			// sens +
+		iSensCam = 1;
+	}
+	if(bVitesseCam == 0){	// params vitesse lente
+		fVitesseCam = 0.1;	// vitesse
+		iTempsTourne = 500;	// temps (en ms)
+	} else {				// params vitesse rapide
+		fVitesseCam = 4;	// vitesse
+		iTempsTourne = 1000;// temps (en ms)
+	}
+	CamMouv = (iSensCam * fVitesseCam * 100) + CamArret ; // Calcul de la vitesse du moteur.
+	monServo.writeMicroseconds(CamMouv);	// le moteur tourne !
+	temps = millis();
+	while(millis()-temps <= iTempsTourne){ // delay maquillé pour future vérification d'un potar
+		int toto = 1;
+	}
+	monServo.writeMicroseconds(CamArret);	// le moteur s'arrete !
+}
